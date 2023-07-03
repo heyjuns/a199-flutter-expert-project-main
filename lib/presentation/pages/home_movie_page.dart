@@ -43,7 +43,7 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
             ),
             ListTile(
               leading: Icon(Icons.movie),
-              title: Text('Movies'),
+              title: Text('Movies & TV Shows'),
               onTap: () {
                 Navigator.pop(context);
               },

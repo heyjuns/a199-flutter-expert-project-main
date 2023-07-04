@@ -6,7 +6,6 @@ class Tv extends Equatable {
   final String? posterPath;
   final String? name;
   final String? backdropPath;
-  final DateTime? firstAirDate;
   final List<int>? genreIds;
   final List<String>? originCountry;
   final String? originalLanguage;
@@ -16,7 +15,6 @@ class Tv extends Equatable {
   final int? voteCount;
 
   Tv({
-    required this.firstAirDate,
     required this.genreIds,
     required this.id,
     required this.name,
@@ -37,7 +35,6 @@ class Tv extends Equatable {
     required this.posterPath,
     required this.name,
   })  : backdropPath = null,
-        firstAirDate = null,
         genreIds = null,
         originCountry = null,
         originalLanguage = null,
@@ -48,7 +45,6 @@ class Tv extends Equatable {
 
   @override
   List<Object?> get props => [
-        firstAirDate,
         genreIds,
         id,
         name,

@@ -1,13 +1,12 @@
-import 'package:ditonton/domain/entities/season.dart';
+import 'package:ditonton/data/models/genre_model.dart';
+import 'package:ditonton/data/models/season_model.dart';
 import 'package:equatable/equatable.dart';
 
-import 'genre.dart';
-
-class TvDetail extends Equatable {
+class TvDetailModel extends Equatable {
   final bool adult;
   final String backdropPath;
   final List<int> episodeRunTime;
-  final List<Genre> genres;
+  final List<GenreModel> genres;
   final String homepage;
   final int id;
   final bool inProduction;
@@ -21,13 +20,13 @@ class TvDetail extends Equatable {
   final String overview;
   final double popularity;
   final String posterPath;
-  final List<Season> seasons;
+  final List<SeasonModel> seasons;
   final String status;
   final String type;
   final double voteAverage;
   final int voteCount;
 
-  const TvDetail({
+  const TvDetailModel({
     required this.adult,
     required this.backdropPath,
     required this.episodeRunTime,
@@ -52,6 +51,32 @@ class TvDetail extends Equatable {
     required this.voteCount,
   });
 
+  factory TvDetailModel.fromJson(Map<String, dynamic> json) => TvDetailModel(
+        adult: json["adult"],
+        backdropPath: json["backdrop_path"],
+        episodeRunTime: List<int>.from(json["episode_run_time"].map((x) => x)),
+        homepage: json["homepage"],
+        id: json["id"],
+        inProduction: json["in_production"],
+        languages: List<String>.from(json["languages"].map((x) => x)),
+        name: json["name"],
+        numberOfEpisodes: json["number_of_episodes"],
+        numberOfSeasons: json["number_of_seasons"],
+        originCountry: List<String>.from(json["origin_country"].map((x) => x)),
+        originalLanguage: json["original_language"],
+        originalName: json["original_name"],
+        overview: json["overview"],
+        popularity: json["popularity"]?.toDouble(),
+        posterPath: json["poster_path"],
+        seasons: List<SeasonModel>.from(
+            json["seasons"].map((x) => SeasonModel.fromJson(x))),
+        status: json["status"],
+        type: json["type"],
+        voteAverage: json["vote_average"]?.toDouble(),
+        voteCount: json["vote_count"],
+        genres: List<GenreModel>.from(
+            json["genres"].map((x) => GenreModel.fromJson(x))),
+      );
   @override
   List<Object?> get props => [
         adult,

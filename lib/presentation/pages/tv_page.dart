@@ -1,10 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ditonton/common/constants.dart';
-import 'package:ditonton/presentation/pages/movie_detail_page.dart';
 import 'package:ditonton/presentation/pages/popular_tv_page.dart';
-import 'package:ditonton/presentation/pages/search_page.dart';
 import 'package:ditonton/common/state_enum.dart';
+import 'package:ditonton/presentation/pages/search_tv_page.dart';
 import 'package:ditonton/presentation/pages/top_rated_tvs_page.dart';
+import 'package:ditonton/presentation/pages/tv_detail_page.dart';
 import 'package:ditonton/presentation/provider/tv_list_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -35,7 +35,7 @@ class _TvPageState extends State<TvPage> {
         actions: [
           IconButton(
             onPressed: () {
-              Navigator.pushNamed(context, SearchPage.ROUTE_NAME);
+              Navigator.pushNamed(context, SearchTvPage.ROUTE_NAME);
             },
             icon: Icon(Icons.search),
           )
@@ -138,21 +138,21 @@ class TvList extends StatelessWidget {
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemBuilder: (context, index) {
-          final movie = tvs[index];
+          final tv = tvs[index];
           return Container(
             padding: const EdgeInsets.all(8),
             child: InkWell(
               onTap: () {
                 Navigator.pushNamed(
                   context,
-                  MovieDetailPage.ROUTE_NAME,
-                  arguments: movie.id,
+                  TvDetailPage.ROUTE_NAME,
+                  arguments: tv.id,
                 );
               },
               child: ClipRRect(
                 borderRadius: BorderRadius.all(Radius.circular(16)),
                 child: CachedNetworkImage(
-                  imageUrl: '$BASE_IMAGE_URL${movie.posterPath}',
+                  imageUrl: '$BASE_IMAGE_URL${tv.posterPath}',
                   placeholder: (context, url) => Center(
                     child: CircularProgressIndicator(),
                   ),

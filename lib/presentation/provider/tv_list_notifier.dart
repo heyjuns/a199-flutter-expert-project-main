@@ -1,10 +1,11 @@
 import 'package:ditonton/domain/entities/tv.dart';
 import 'package:ditonton/domain/usecases/get_now_playing_tvs.dart';
-import 'package:ditonton/domain/usecases/get_popular_tvs.dart';
-import 'package:ditonton/domain/usecases/get_top_rated_tvs.dart';
+
 import 'package:flutter/material.dart';
 
 import '../../common/state_enum.dart';
+import '../../domain/usecases/get_popular_tv.dart';
+import '../../domain/usecases/get_top_rated_tv.dart';
 
 class TvListNotifier extends ChangeNotifier {
   var _nowPlayingTvs = <Tv>[];

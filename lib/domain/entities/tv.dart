@@ -7,7 +7,6 @@ class Tv extends Equatable {
   final String? name;
   final String? backdropPath;
   final List<int>? genreIds;
-  final List<String>? originCountry;
   final String? originalLanguage;
   final String? originalName;
   final double? popularity;
@@ -18,7 +17,6 @@ class Tv extends Equatable {
     required this.genreIds,
     required this.id,
     required this.name,
-    required this.originCountry,
     required this.originalLanguage,
     required this.originalName,
     required this.overview,
@@ -36,7 +34,6 @@ class Tv extends Equatable {
     required this.name,
   })  : backdropPath = null,
         genreIds = null,
-        originCountry = null,
         originalLanguage = null,
         originalName = null,
         popularity = null,
@@ -48,7 +45,6 @@ class Tv extends Equatable {
         genreIds,
         id,
         name,
-        originCountry,
         originalLanguage,
         originalName,
         overview,

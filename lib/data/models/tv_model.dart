@@ -8,7 +8,6 @@ class TvModel extends Equatable {
   final String? name;
   final String? backdropPath;
   final List<int>? genreIds;
-  final List<String>? originCountry;
   final String? originalLanguage;
   final String? originalName;
   final double? popularity;
@@ -19,7 +18,6 @@ class TvModel extends Equatable {
     required this.genreIds,
     required this.id,
     required this.name,
-    required this.originCountry,
     required this.originalLanguage,
     required this.originalName,
     required this.overview,
@@ -40,7 +38,6 @@ class TvModel extends Equatable {
         voteAverage: json["vote_average"].toDouble(),
         voteCount: json["vote_count"],
         name: json["name"],
-        originCountry: json["origin_country"],
         originalLanguage: json["original_language"],
         originalName: json["original_name"],
       );
@@ -55,7 +52,6 @@ class TvModel extends Equatable {
         "vote_average": voteAverage,
         "vote_count": voteCount,
         "name": name,
-        "origin_country": originCountry,
         "original_language": originalLanguage,
         "original_name": originalName,
       };
@@ -68,7 +64,6 @@ class TvModel extends Equatable {
       name: this.name,
       backdropPath: this.backdropPath,
       genreIds: this.genreIds,
-      originCountry: this.originCountry,
       originalLanguage: this.originalLanguage,
       originalName: this.originalName,
       popularity: this.popularity,
@@ -82,7 +77,6 @@ class TvModel extends Equatable {
         genreIds,
         id,
         name,
-        originCountry,
         originalLanguage,
         originalName,
         overview,

@@ -51,7 +51,7 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
             ),
             ListTile(
               leading: Icon(Icons.movie),
-              title: Text('Tv Shows'),
+              title: Text('TV Shows'),
               onTap: () {
                 Navigator.pushNamed(context, TvPage.ROUTE_NAME);
               },

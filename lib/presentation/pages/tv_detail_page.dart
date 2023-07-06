@@ -155,9 +155,9 @@ class DetailContent extends StatelessWidget {
                             Text(
                               _showGenres(tv.genres),
                             ),
-                            // Text(
-                            //   _showDuration(tv.runtime),
-                            // ),
+                            Text(
+                              '${tv.numberOfEpisodes} Episodes',
+                            ),
                             Row(
                               children: [
                                 RatingBarIndicator(
@@ -179,6 +179,40 @@ class DetailContent extends StatelessWidget {
                             ),
                             Text(
                               tv.overview,
+                            ),
+                            SizedBox(height: 16),
+                            Text(
+                              '${tv.seasons.length} Seasons',
+                              style: kHeading6,
+                            ),
+                            Container(
+                              height: 150,
+                              child: ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                itemBuilder: (context, index) {
+                                  return Padding(
+                                    padding: const EdgeInsets.all(4.0),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(8),
+                                      ),
+                                      child: CachedNetworkImage(
+                                        imageUrl:
+                                            'https://image.tmdb.org/t/p/w500${tv.seasons[index].posterPath}',
+                                        placeholder: (context, url) => Center(
+                                          child: CircularProgressIndicator(),
+                                        ),
+                                        errorWidget: (context, url, error) =>
+                                            Container(
+                                                width: 100,
+                                                color: Colors.white10,
+                                                child: Icon(Icons.error)),
+                                      ),
+                                    ),
+                                  );
+                                },
+                                itemCount: tv.seasons.length,
+                              ),
                             ),
                             SizedBox(height: 16),
                             Text(
@@ -290,16 +324,5 @@ class DetailContent extends StatelessWidget {
     }
 
     return result.substring(0, result.length - 2);
-  }
-
-  String _showDuration(int runtime) {
-    final int hours = runtime ~/ 60;
-    final int minutes = runtime % 60;
-
-    if (hours > 0) {
-      return '${hours}h ${minutes}m';
-    } else {
-      return '${minutes}m';
-    }
   }
 }

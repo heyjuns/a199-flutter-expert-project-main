@@ -1,5 +1,6 @@
 import 'package:ditonton/data/models/genre_model.dart';
 import 'package:ditonton/data/models/season_model.dart';
+import 'package:ditonton/domain/entities/tv_detail.dart';
 import 'package:equatable/equatable.dart';
 
 class TvDetailModel extends Equatable {
@@ -77,6 +78,59 @@ class TvDetailModel extends Equatable {
         genres: List<GenreModel>.from(
             json["genres"].map((x) => GenreModel.fromJson(x))),
       );
+
+  Map<String, dynamic> toJson() => {
+        'adult': adult,
+        'backdrop_path': backdropPath,
+        'episode_run_time': episodeRunTime,
+        'genres': genres.map((genre) => genre.toEntity()).toList(),
+        'homepage': homepage,
+        'id': id,
+        'in_production': inProduction,
+        'languages': languages,
+        'name': name,
+        'number_of_episodes': numberOfEpisodes,
+        'number_of_seasons': numberOfSeasons,
+        'origin_country': originCountry,
+        'original_language': originalLanguage,
+        'original_name': originalName,
+        'overview': overview,
+        'popularity': popularity,
+        'poster_path': posterPath,
+        'seasons': seasons.map((season) => season.toEntity()).toList(),
+        'status': status,
+        'type': type,
+        'vote_average': voteAverage,
+        'vote_count': voteCount,
+      };
+
+  TvDetail toEntity() {
+    return TvDetail(
+      adult: this.adult,
+      backdropPath: this.backdropPath,
+      episodeRunTime: this.episodeRunTime,
+      genres: this.genres.map((genre) => genre.toEntity()).toList(),
+      homepage: this.homepage,
+      id: this.id,
+      inProduction: this.inProduction,
+      languages: this.languages,
+      name: this.name,
+      numberOfEpisodes: this.numberOfEpisodes,
+      numberOfSeasons: this.numberOfSeasons,
+      originCountry: this.originCountry,
+      originalLanguage: this.originalLanguage,
+      originalName: this.originalName,
+      overview: this.overview,
+      popularity: this.popularity,
+      posterPath: this.posterPath,
+      seasons: this.seasons.map((season) => season.toEntity()).toList(),
+      status: this.status,
+      type: this.type,
+      voteAverage: this.voteAverage,
+      voteCount: this.voteCount,
+    );
+  }
+
   @override
   List<Object?> get props => [
         adult,

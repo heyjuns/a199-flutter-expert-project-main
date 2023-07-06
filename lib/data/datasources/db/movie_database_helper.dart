@@ -3,13 +3,14 @@ import 'dart:async';
 import 'package:ditonton/data/models/movie_table.dart';
 import 'package:sqflite/sqflite.dart';
 
-class DatabaseHelper {
-  static DatabaseHelper? _databaseHelper;
-  DatabaseHelper._instance() {
+class MovieDatabaseHelper {
+  static MovieDatabaseHelper? _databaseHelper;
+  MovieDatabaseHelper._instance() {
     _databaseHelper = this;
   }
 
-  factory DatabaseHelper() => _databaseHelper ?? DatabaseHelper._instance();
+  factory MovieDatabaseHelper() =>
+      _databaseHelper ?? MovieDatabaseHelper._instance();
 
   static Database? _database;
 
@@ -24,7 +25,7 @@ class DatabaseHelper {
 
   Future<Database> _initDb() async {
     final path = await getDatabasesPath();
-    final databasePath = '$path/ditonton.db';
+    final databasePath = '$path/ditontonmovie.db';
 
     var db = await openDatabase(databasePath, version: 1, onCreate: _onCreate);
     return db;

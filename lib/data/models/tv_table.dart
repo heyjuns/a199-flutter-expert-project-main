@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
-import '../../domain/entities/Tv.dart';
-import '../../domain/entities/Tv_detail.dart';
+import '../../domain/entities/tv.dart';
+import '../../domain/entities/tv_detail.dart';
 
 class TvTable extends Equatable {
   final int id;

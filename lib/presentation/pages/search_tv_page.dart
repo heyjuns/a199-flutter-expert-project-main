@@ -1,10 +1,10 @@
-import 'package:ditonton/presentation/provider/tv_search_notifier.dart';
 import 'package:ditonton/presentation/widgets/tv_card_list.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../common/constants.dart';
-import '../../common/state_enum.dart';
+import '../bloc/search_tvs_bloc.dart';
+import '../bloc/search_tvs_event.dart';
 
 class SearchTvPage extends StatelessWidget {
   static const ROUTE_NAME = "/search-tv";
@@ -22,9 +22,8 @@ class SearchTvPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             TextField(
-              onSubmitted: (query) {
-                Provider.of<TvSearchNotifier>(context, listen: false)
-                    .fetchTvSearch(query);
+              onChanged: (query) {
+                context.read<SearchTvsBloc>().add(OnQueryTvsChanged(query));
               },
               decoration: InputDecoration(
                 hintText: 'Search title',
@@ -38,22 +37,28 @@ class SearchTvPage extends StatelessWidget {
               'Search Result',
               style: kHeading6,
             ),
-            Consumer<TvSearchNotifier>(
-              builder: (context, data, child) {
-                if (data.state == RequestState.Loading) {
+            BlocBuilder<SearchTvsBloc, SearchTvsState>(
+              builder: (context, state) {
+                if (state is SearchTvsLoading) {
                   return Center(
                     child: CircularProgressIndicator(),
                   );
-                } else if (data.state == RequestState.Loaded) {
-                  final result = data.searchResult;
+                } else if (state is SearchTvsHasData) {
+                  final result = state.result;
                   return Expanded(
                     child: ListView.builder(
                       padding: const EdgeInsets.all(8),
                       itemBuilder: (context, index) {
-                        final tv = data.searchResult[index];
-                        return TvCard(tv);
+                        final movie = result[index];
+                        return TvCard(movie);
                       },
                       itemCount: result.length,
+                    ),
+                  );
+                } else if (state is SearchTvsError) {
+                  return Expanded(
+                    child: Center(
+                      child: Text(state.message),
                     ),
                   );
                 } else {

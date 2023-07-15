@@ -1,11 +1,9 @@
 import 'package:ditonton/common/constants.dart';
 import 'package:ditonton/presentation/bloc/search_bloc.dart';
 import 'package:ditonton/presentation/bloc/search_event.dart';
-import 'package:ditonton/presentation/provider/movie_search_notifier.dart';
 import 'package:ditonton/presentation/widgets/movie_card_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
 
 class SearchPage extends StatelessWidget {
   static const ROUTE_NAME = '/search';
@@ -25,10 +23,6 @@ class SearchPage extends StatelessWidget {
               onChanged: (query) {
                 context.read<SearchBloc>().add(OnQueryChanged(query));
               },
-              // onSubmitted: (query) {
-              //   Provider.of<MovieSearchNotifier>(context, listen: false)
-              //       .fetchMovieSearch(query);
-              // },
               decoration: InputDecoration(
                 hintText: 'Search title',
                 prefixIcon: Icon(Icons.search),

@@ -1,13 +1,35 @@
-import 'package:ditonton/domain/entities/tv.dart';
 import 'package:equatable/equatable.dart';
 
-abstract class MovieDetailEvent extends Equatable {
-  const MovieDetailEvent();
+import '../../domain/entities/movie.dart';
+import '../../domain/entities/movie_detail.dart';
 
-  @override
-  List<Object> get props => [];
+abstract class MovieDetailEvent {}
+
+class FetchMovieDetailEvent extends MovieDetailEvent {
+  final int id;
+
+  FetchMovieDetailEvent(this.id);
 }
 
+class AddToWatchlistEvent extends MovieDetailEvent {
+  final MovieDetail movie;
+
+  AddToWatchlistEvent(this.movie);
+}
+
+class RemoveFromWatchlistEvent extends MovieDetailEvent {
+  final MovieDetail movie;
+
+  RemoveFromWatchlistEvent(this.movie);
+}
+
+class CheckWatchlistStatusEvent extends MovieDetailEvent {
+  final int id;
+
+  CheckWatchlistStatusEvent(this.id);
+}
+
+// States
 abstract class MovieDetailState extends Equatable {
   const MovieDetailState();
 
@@ -15,24 +37,27 @@ abstract class MovieDetailState extends Equatable {
   List<Object> get props => [];
 }
 
-class MovieDetailInitState extends MovieDetailState {}
+class MovieDetailInitialState extends MovieDetailState {}
 
 class MovieDetailLoadingState extends MovieDetailState {}
+
+class MovieDetailLoadedState extends MovieDetailState {
+  final MovieDetail movie;
+  MovieDetailLoadedState({required this.movie});
+  @override
+  List<Object> get props => [movie];
+}
+
+class MovieDetailRecommendationState extends MovieDetailState {
+  final List<Movie> recommendations;
+  MovieDetailRecommendationState({required this.recommendations});
+
+  @override
+  List<Object> get props => [recommendations];
+}
 
 class MovieDetailErrorState extends MovieDetailState {
   final String message;
 
   MovieDetailErrorState(this.message);
-
-  @override
-  List<Object> get props => [message];
-}
-
-class MovieDetailLoadedState extends MovieDetailState {
-  final List<Tv> result;
-
-  MovieDetailLoadedState(this.result);
-
-  @override
-  List<Object> get props => [result];
 }

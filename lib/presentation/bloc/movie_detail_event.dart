@@ -41,12 +41,7 @@ class MovieDetailInitialState extends MovieDetailState {}
 
 class MovieDetailLoadingState extends MovieDetailState {}
 
-class MovieDetailLoadedState extends MovieDetailState {
-  final MovieDetail movie;
-  MovieDetailLoadedState({required this.movie});
-  @override
-  List<Object> get props => [movie];
-}
+class MovieDetailLoadedState extends MovieDetailState {}
 
 class MovieDetailRecommendationState extends MovieDetailState {
   final List<Movie> recommendations;

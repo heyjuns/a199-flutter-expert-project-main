@@ -56,7 +56,7 @@ class MovieDetailBloc extends Bloc<MovieDetailEvent, MovieDetailState> {
             emit(MovieDetailLoadingState());
             _movie = movie;
 
-            emit(MovieDetailLoadedState(movie: movie));
+            emit(MovieDetailLoadedState());
             recommendationResult.fold(
               (failure) {
                 emit(MovieDetailErrorState(failure.message));

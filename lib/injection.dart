@@ -20,6 +20,7 @@ import 'package:ditonton/presentation/bloc/movie_list_bloc.dart';
 import 'package:ditonton/presentation/bloc/popular_movies_bloc.dart';
 import 'package:ditonton/presentation/bloc/search_bloc.dart';
 import 'package:ditonton/presentation/bloc/search_tvs_bloc.dart';
+import 'package:ditonton/presentation/bloc/top_rated_movies_bloc.dart';
 import 'package:ditonton/presentation/provider/movie_detail_notifier.dart';
 import 'package:ditonton/presentation/provider/movie_list_notifier.dart';
 import 'package:ditonton/presentation/provider/movie_search_notifier.dart';
@@ -166,7 +167,11 @@ void init() {
       getPopularMovies: locator(),
     ),
   );
-
+  locator.registerFactory(
+    () => TopRatedMoviesBloc(
+      getTopRatedMovies: locator(),
+    ),
+  );
   // use case
   locator.registerLazySingleton(() => GetNowPlayingMovies(locator()));
   locator.registerLazySingleton(() => GetPopularMovies(locator()));

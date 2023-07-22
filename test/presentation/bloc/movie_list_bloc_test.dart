@@ -51,120 +51,53 @@ void main() {
   test('initial state should be init', () {
     expect(movieListBloc.state, MovieListInitialState());
   });
-  group('now playing movies', () {
+  group('movie list', () {
     blocTest<MovieListBloc, MovieListState>(
-      'Should emit [NowPlayingMovieListLoadingState, NowPlayingMovieListLoadedState] when data is gotten successfully',
+      'Should emit [MovieListLoadingState, MovieListLoadedState] when all usecase is gotten successfully',
       build: () {
         when(mockGetNowPlayingMovies.execute())
             .thenAnswer((_) async => Right(tMovieList));
-        return movieListBloc;
-      },
-      act: (bloc) => bloc.add(FetchNowPlayingMovieListEvent()),
-      expect: () => [
-        NowPlayingMovieListLoadingState(),
-        NowPlayingMovieListLoadedState(tMovieList),
-      ],
-      verify: (bloc) {
-        verify(
-          mockGetNowPlayingMovies.execute(),
-        );
-      },
-    );
-    blocTest<MovieListBloc, MovieListState>(
-      'Should emit [NowPlayingMovieListLoadingState, NowPlayingMovieListErrorState] when data is unsuccessful',
-      build: () {
-        when(mockGetNowPlayingMovies.execute())
-            .thenAnswer((_) async => Left(ServerFailure('Server Failure')));
-        return movieListBloc;
-      },
-      act: (bloc) => bloc.add(FetchNowPlayingMovieListEvent()),
-      expect: () => [
-        NowPlayingMovieListLoadingState(),
-        NowPlayingMovieListErrorState('Server Failure'),
-      ],
-      verify: (bloc) {
-        verify(
-          mockGetNowPlayingMovies.execute(),
-        );
-      },
-    );
-  });
-
-  group('Popular movies', () {
-    blocTest<MovieListBloc, MovieListState>(
-      'Should emit [PopularMovieListLoadingState, PopularMovieListLoadedState] when data is gotten successfully',
-      build: () {
         when(mockGetPopularMovies.execute())
             .thenAnswer((_) async => Right(tMovieList));
-        return movieListBloc;
-      },
-      act: (bloc) => bloc.add(FetchPopularMovieListEvent()),
-      expect: () => [
-        PopularMovieListLoadingState(),
-        PopularMovieListLoadedState(tMovieList),
-      ],
-      verify: (bloc) {
-        verify(
-          mockGetPopularMovies.execute(),
-        );
-      },
-    );
-    blocTest<MovieListBloc, MovieListState>(
-      'Should emit [PopularMovieListLoadingState, PopularMovieListErrorState] when data is unsuccessful',
-      build: () {
-        when(mockGetPopularMovies.execute())
-            .thenAnswer((_) async => Left(ServerFailure('Server Failure')));
-        return movieListBloc;
-      },
-      act: (bloc) => bloc.add(FetchPopularMovieListEvent()),
-      expect: () => [
-        PopularMovieListLoadingState(),
-        PopularMovieListErrorState('Server Failure'),
-      ],
-      verify: (bloc) {
-        verify(
-          mockGetPopularMovies.execute(),
-        );
-      },
-    );
-  });
-
-  group('Top Rated movies', () {
-    blocTest<MovieListBloc, MovieListState>(
-      'Should emit [TopRatedMovieListLoadingState, TopRatedMovieListLoadedState] when data is gotten successfully',
-      build: () {
         when(mockGetTopRatedMovies.execute())
             .thenAnswer((_) async => Right(tMovieList));
         return movieListBloc;
       },
-      act: (bloc) => bloc.add(FetchTopRatedMovieListEvent()),
+      act: (bloc) => bloc.add(FetchAllMovieListEvent()),
       expect: () => [
-        TopRatedMovieListLoadingState(),
-        TopRatedMovieListLoadedState(tMovieList),
+        MovieListLoadingState(),
+        MovieListLoadedState(),
       ],
       verify: (bloc) {
-        verify(
+        verifyInOrder([
+          mockGetNowPlayingMovies.execute(),
+          mockGetPopularMovies.execute(),
           mockGetTopRatedMovies.execute(),
-        );
+        ]);
       },
     );
     blocTest<MovieListBloc, MovieListState>(
-      'Should emit [TopRatedMovieListLoadingState, TopRatedMovieListErrorState] when data is unsuccessful',
+      'Should emit [MovieListLoadingState, MovieListErrorState] when one of usecase is gotten error',
       build: () {
-        when(mockGetTopRatedMovies.execute())
+        when(mockGetNowPlayingMovies.execute())
             .thenAnswer((_) async => Left(ServerFailure('Server Failure')));
+        when(mockGetPopularMovies.execute())
+            .thenAnswer((_) async => Right(tMovieList));
+        when(mockGetTopRatedMovies.execute())
+            .thenAnswer((_) async => Right(tMovieList));
         return movieListBloc;
       },
-      act: (bloc) => bloc.add(FetchTopRatedMovieListEvent()),
-      wait: const Duration(milliseconds: 500),
+      act: (bloc) => bloc.add(FetchAllMovieListEvent()),
       expect: () => [
-        TopRatedMovieListLoadingState(),
-        TopRatedMovieListErrorState('Server Failure'),
+        MovieListLoadingState(),
+        MovieListErrorState('Server Failure'),
       ],
       verify: (bloc) {
-        verify(
+        verifyInOrder([
+          mockGetNowPlayingMovies.execute(),
+          mockGetPopularMovies.execute(),
           mockGetTopRatedMovies.execute(),
-        );
+        ]);
       },
     );
   });

@@ -20,15 +20,11 @@ class HomeMoviePage extends StatefulWidget {
 }
 
 class _HomeMoviePageState extends State<HomeMoviePage> {
+  late MovieListBloc bloc;
   @override
   void initState() {
     super.initState();
-    Future.microtask(
-      () => context.read<MovieListBloc>()
-        ..add(FetchNowPlayingMovieListEvent())
-        ..add(FetchPopularMovieListEvent())
-        ..add(FetchTopRatedMovieListEvent()),
-    );
+    bloc = context.read<MovieListBloc>()..add(FetchAllMovieListEvent());
   }
 
   @override
@@ -105,12 +101,12 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
               ),
               BlocBuilder<MovieListBloc, MovieListState>(
                   builder: (context, state) {
-                if (state is NowPlayingMovieListLoadingState) {
+                if (state is MovieListLoadingState) {
                   return Center(
                     child: CircularProgressIndicator(),
                   );
-                } else if (state is NowPlayingMovieListLoadedState) {
-                  return MovieList(state.movies);
+                } else if (state is MovieListLoadedState) {
+                  return MovieList(bloc.nowPlayingMovies);
                 } else {
                   return Text('Failed');
                 }
@@ -122,12 +118,12 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
               ),
               BlocBuilder<MovieListBloc, MovieListState>(
                   builder: (context, state) {
-                if (state is PopularMovieListLoadingState) {
+                if (state is MovieListLoadingState) {
                   return Center(
                     child: CircularProgressIndicator(),
                   );
-                } else if (state is PopularMovieListLoadedState) {
-                  return MovieList(state.movies);
+                } else if (state is MovieListLoadedState) {
+                  return MovieList(bloc.popularMovies);
                 } else {
                   return Text('Failed');
                 }
@@ -139,12 +135,12 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
               ),
               BlocBuilder<MovieListBloc, MovieListState>(
                   builder: (context, state) {
-                if (state is TopRatedMovieListLoadingState) {
+                if (state is MovieListLoadingState) {
                   return Center(
                     child: CircularProgressIndicator(),
                   );
-                } else if (state is TopRatedMovieListLoadedState) {
-                  return MovieList(state.movies);
+                } else if (state is MovieListLoadedState) {
+                  return MovieList(bloc.topRatedMovies);
                 } else {
                   return Text('Failed');
                 }

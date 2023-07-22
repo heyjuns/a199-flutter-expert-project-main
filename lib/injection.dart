@@ -17,6 +17,7 @@ import 'package:ditonton/domain/usecases/save_watchlist_tv.dart';
 import 'package:ditonton/domain/usecases/search_movies.dart';
 import 'package:ditonton/presentation/bloc/movie_detail_bloc.dart';
 import 'package:ditonton/presentation/bloc/movie_list_bloc.dart';
+import 'package:ditonton/presentation/bloc/popular_movies_bloc.dart';
 import 'package:ditonton/presentation/bloc/search_bloc.dart';
 import 'package:ditonton/presentation/bloc/search_tvs_bloc.dart';
 import 'package:ditonton/presentation/provider/movie_detail_notifier.dart';
@@ -157,6 +158,12 @@ void init() {
       getNowPlayingMovies: locator(),
       getPopularMovies: locator(),
       getTopRatedMovies: locator(),
+    ),
+  );
+
+  locator.registerFactory(
+    () => PopularMoviesBloc(
+      getPopularMovies: locator(),
     ),
   );
 

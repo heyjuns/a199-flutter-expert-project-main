@@ -21,6 +21,7 @@ import 'package:ditonton/presentation/bloc/popular_movies_bloc.dart';
 import 'package:ditonton/presentation/bloc/search_bloc.dart';
 import 'package:ditonton/presentation/bloc/search_tvs_bloc.dart';
 import 'package:ditonton/presentation/bloc/top_rated_movies_bloc.dart';
+import 'package:ditonton/presentation/bloc/top_rated_tvs_bloc.dart';
 import 'package:ditonton/presentation/provider/movie_detail_notifier.dart';
 import 'package:ditonton/presentation/provider/movie_list_notifier.dart';
 import 'package:ditonton/presentation/provider/movie_search_notifier.dart';
@@ -145,16 +146,6 @@ void init() {
   );
 
   locator.registerFactory(
-    () => MovieDetailBloc(
-      getMovieDetail: locator(),
-      getMovieRecommendations: locator(),
-      getWatchListStatus: locator(),
-      saveWatchlist: locator(),
-      removeWatchlist: locator(),
-    ),
-  );
-
-  locator.registerFactory(
     () => MovieListBloc(
       getNowPlayingMovies: locator(),
       getPopularMovies: locator(),
@@ -163,13 +154,8 @@ void init() {
   );
 
   locator.registerFactory(
-    () => PopularMoviesBloc(
-      getPopularMovies: locator(),
-    ),
-  );
-  locator.registerFactory(
-    () => TopRatedMoviesBloc(
-      getTopRatedMovies: locator(),
+    () => TopRatedTvsBloc(
+      getTopRatedTvs: locator(),
     ),
   );
   // use case

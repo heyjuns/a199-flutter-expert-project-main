@@ -16,6 +16,7 @@ import 'package:ditonton/domain/usecases/save_watchlist.dart';
 import 'package:ditonton/domain/usecases/save_watchlist_tv.dart';
 import 'package:ditonton/domain/usecases/search_movies.dart';
 import 'package:ditonton/presentation/bloc/movie_list_bloc.dart';
+import 'package:ditonton/presentation/bloc/popular_tvs_bloc.dart';
 import 'package:ditonton/presentation/bloc/search_bloc.dart';
 import 'package:ditonton/presentation/bloc/search_tvs_bloc.dart';
 import 'package:ditonton/presentation/bloc/top_rated_tvs_bloc.dart';
@@ -155,14 +156,20 @@ void init() {
   );
 
   locator.registerFactory(
+    () => SearchTvsBloc(
+      locator(),
+    ),
+  );
+
+  locator.registerFactory(
     () => TopRatedTvsBloc(
       getTopRatedTvs: locator(),
     ),
   );
 
   locator.registerFactory(
-    () => SearchTvsBloc(
-      locator(),
+    () => PopularTvsBloc(
+      getPopularTvs: locator(),
     ),
   );
   // use case

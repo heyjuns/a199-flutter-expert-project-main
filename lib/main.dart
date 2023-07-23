@@ -1,6 +1,7 @@
 import 'package:ditonton/common/constants.dart';
 import 'package:ditonton/common/utils.dart';
 import 'package:ditonton/presentation/bloc/movie_list_bloc.dart';
+import 'package:ditonton/presentation/bloc/popular_tvs_bloc.dart';
 import 'package:ditonton/presentation/bloc/search_bloc.dart';
 import 'package:ditonton/presentation/bloc/search_tvs_bloc.dart';
 import 'package:ditonton/presentation/bloc/top_rated_tvs_bloc.dart';
@@ -97,13 +98,16 @@ class MyApp extends StatelessWidget {
 
         // tv
         BlocProvider(
-          create: (context) => di.locator<TopRatedTvsBloc>(),
+          create: (context) => di.locator<TvListBloc>(),
         ),
         BlocProvider(
           create: (context) => di.locator<SearchTvsBloc>(),
         ),
         BlocProvider(
-          create: (context) => di.locator<TvListBloc>(),
+          create: (context) => di.locator<TopRatedTvsBloc>(),
+        ),
+        BlocProvider(
+          create: (context) => di.locator<PopularTvsBloc>(),
         ),
       ],
       child: MaterialApp(

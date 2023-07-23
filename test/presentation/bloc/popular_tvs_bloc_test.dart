@@ -23,7 +23,7 @@ void main() {
     );
   });
 
-  group('top rated tvs list', () {
+  group('popular tvs list', () {
     test('should emit PopularTvsInitialState', () {
       expect(bloc.state, PopularTvsInitialState());
     });

@@ -56,6 +56,8 @@ void main() {
         when(mockGetTvDetail.execute(1))
             .thenAnswer((_) async => Right(testTvDetail));
         when(mockGetWatchListTvStatus.execute(1)).thenAnswer((_) async => true);
+        when(mockGetTvRecommendations.execute(1))
+            .thenAnswer((_) async => Right(testTvList));
 
         return bloc;
       },
@@ -98,6 +100,8 @@ void main() {
             .thenAnswer((_) async => Right(testTvDetail));
         when(mockGetWatchListTvStatus.execute(1))
             .thenAnswer((_) async => false);
+        when(mockGetTvRecommendations.execute(1))
+            .thenAnswer((_) async => Right(testTvList));
 
         return bloc;
       },
@@ -114,7 +118,7 @@ void main() {
     );
 
     blocTest<TvDetailBloc, TvDetailState>(
-      'Should emit [TvListLoadedState(true)] when save watchlist',
+      'Should emit [TvDetailWatchlistState, TvListLoadedState(true)] when save watchlist',
       build: () {
         when(mockSaveWatchlistTv.execute(testTvDetail))
             .thenAnswer((_) async => Right('Success'));
@@ -125,6 +129,7 @@ void main() {
       },
       act: (bloc) => bloc.add(SaveWatchlistTvEvent(testTvDetail)),
       expect: () => [
+        TvDetailWatchlistState(),
         TvDetailLoadedState(false),
       ],
       verify: (bloc) {
@@ -135,7 +140,7 @@ void main() {
     );
 
     blocTest<TvDetailBloc, TvDetailState>(
-      'Should emit [TvListLoadedState(false)] when save watchlist',
+      'Should emit [TvDetailWatchlistState, TvListLoadedState(false)] when save watchlist',
       build: () {
         when(mockRemoveWatchlistTv.execute(testTvDetail))
             .thenAnswer((_) async => Right('Removed'));
@@ -146,6 +151,7 @@ void main() {
       },
       act: (bloc) => bloc.add(RemoveWatchlistTvEvent(testTvDetail)),
       expect: () => [
+        TvDetailWatchlistState(),
         TvDetailLoadedState(false),
       ],
       verify: (bloc) {

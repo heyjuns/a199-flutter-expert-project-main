@@ -7,6 +7,8 @@ import 'package:ditonton/domain/usecases/remove_watchlist_tv.dart';
 import 'package:ditonton/domain/usecases/save_watchlist_tv.dart';
 import 'package:ditonton/presentation/bloc/tv_detail_event.dart';
 
+import '../../domain/entities/tv.dart';
+
 class TvDetailBloc extends Bloc<TvDetailEvent, TvDetailState> {
   final GetTvRecommendations getTvRecommendations;
   final GetWatchListTvStatus getWatchListTvStatus;
@@ -25,8 +27,11 @@ class TvDetailBloc extends Bloc<TvDetailEvent, TvDetailState> {
   String _watchlistMessage = '';
   String get watchlistMessage => _watchlistMessage;
 
-  bool _isAddedtoWatchlist = false;
-  bool get isAddedToWatchlist => _isAddedtoWatchlist;
+  late bool _isAddedToWatchlist;
+  bool get isAddedToWatchlist => _isAddedToWatchlist;
+
+  List<Tv> _tvRecommendations = [];
+  get tvRecommendations => _tvRecommendations;
 
   TvDetailBloc({
     required this.getTvRecommendations,
@@ -47,21 +52,40 @@ class TvDetailBloc extends Bloc<TvDetailEvent, TvDetailState> {
         },
         (tvs) {
           _tvDetail = tvs;
+          TvDetailLoadedState(false);
           add(FetchTvStatusEvent(id));
+          add(FetchTvRecommendationEvent(id));
         },
       );
     });
 
+    on<FetchTvRecommendationEvent>(
+      (event, emit) async {
+        int id = event.id;
+        final response = await getTvRecommendations.execute(id);
+        response.fold(
+          (error) {
+            _message = error.message;
+            emit(TvDetailErrorState(_message));
+          },
+          (tvRecommendations) {
+            _tvRecommendations = tvRecommendations;
+          },
+        );
+      },
+    );
+
     on<FetchTvStatusEvent>((event, emit) async {
       int id = event.id;
       final response = await getWatchListTvStatus.execute(id);
-      _isAddedtoWatchlist = response;
-      emit(TvDetailLoadedState(response));
+      _isAddedToWatchlist = response;
+      emit(TvDetailLoadedState(isAddedToWatchlist));
     });
 
     on<RemoveWatchlistTvEvent>((event, emit) async {
       TvDetail tv = event.tv;
       final response = await removeWatchlistTv.execute(tv);
+      print(response);
       await response.fold(
         (failure) async {
           _watchlistMessage = failure.message;
@@ -71,11 +95,13 @@ class TvDetailBloc extends Bloc<TvDetailEvent, TvDetailState> {
           add(FetchTvStatusEvent(tv.id));
         },
       );
+      emit(TvDetailWatchlistState());
     });
 
     on<SaveWatchlistTvEvent>((event, emit) async {
       TvDetail tv = event.tv;
       final response = await saveWatchlistTv.execute(tv);
+      print(response);
       await response.fold(
         (failure) async {
           _watchlistMessage = failure.message;
@@ -85,6 +111,7 @@ class TvDetailBloc extends Bloc<TvDetailEvent, TvDetailState> {
           add(FetchTvStatusEvent(tv.id));
         },
       );
+      emit(TvDetailWatchlistState());
     });
   }
 }

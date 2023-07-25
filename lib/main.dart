@@ -5,6 +5,7 @@ import 'package:ditonton/presentation/bloc/popular_tvs_bloc.dart';
 import 'package:ditonton/presentation/bloc/search_bloc.dart';
 import 'package:ditonton/presentation/bloc/search_tvs_bloc.dart';
 import 'package:ditonton/presentation/bloc/top_rated_tvs_bloc.dart';
+import 'package:ditonton/presentation/bloc/tv_detail_bloc.dart';
 import 'package:ditonton/presentation/bloc/tv_list_bloc.dart';
 import 'package:ditonton/presentation/bloc/watchlist_tv_bloc.dart';
 import 'package:ditonton/presentation/pages/movie_detail_page.dart';
@@ -98,6 +99,9 @@ class MyApp extends StatelessWidget {
         ),
 
         // tv
+        BlocProvider(
+          create: (context) => di.locator<TvDetailBloc>(),
+        ),
         BlocProvider(
           create: (context) => di.locator<TvListBloc>(),
         ),

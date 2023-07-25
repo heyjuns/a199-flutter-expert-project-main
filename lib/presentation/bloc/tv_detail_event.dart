@@ -16,6 +16,14 @@ class FetchTvDetailEvent extends TvDetailEvent {
   List<Object> get props => [id];
 }
 
+class FetchTvRecommendationEvent extends TvDetailEvent {
+  final int id;
+  const FetchTvRecommendationEvent(this.id);
+
+  @override
+  List<Object> get props => [id];
+}
+
 class RemoveWatchlistTvEvent extends TvDetailEvent {
   final TvDetail tv;
 
@@ -67,3 +75,5 @@ class TvDetailErrorState extends TvDetailState {
 
   TvDetailErrorState(this.message);
 }
+
+class TvDetailWatchlistState extends TvDetailState {}

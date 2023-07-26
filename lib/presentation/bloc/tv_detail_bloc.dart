@@ -95,7 +95,6 @@ class TvDetailBloc extends Bloc<TvDetailEvent, TvDetailState> {
           add(FetchTvStatusEvent(tv.id));
         },
       );
-      emit(TvDetailWatchlistState());
     });
 
     on<SaveWatchlistTvEvent>((event, emit) async {
@@ -111,7 +110,6 @@ class TvDetailBloc extends Bloc<TvDetailEvent, TvDetailState> {
           add(FetchTvStatusEvent(tv.id));
         },
       );
-      emit(TvDetailWatchlistState());
     });
   }
 }

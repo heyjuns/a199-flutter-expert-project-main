@@ -129,7 +129,6 @@ void main() {
       },
       act: (bloc) => bloc.add(SaveWatchlistTvEvent(testTvDetail)),
       expect: () => [
-        TvDetailWatchlistState(),
         TvDetailLoadedState(false),
       ],
       verify: (bloc) {
@@ -151,7 +150,6 @@ void main() {
       },
       act: (bloc) => bloc.add(RemoveWatchlistTvEvent(testTvDetail)),
       expect: () => [
-        TvDetailWatchlistState(),
         TvDetailLoadedState(false),
       ],
       verify: (bloc) {

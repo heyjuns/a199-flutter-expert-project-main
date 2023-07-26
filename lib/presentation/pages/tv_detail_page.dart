@@ -104,7 +104,7 @@ class DetailContent extends StatelessWidget {
                             ),
                             BlocListener<TvDetailBloc, TvDetailState>(
                                 listener: (context, state) {
-                                  if (state is TvDetailWatchlistState) {
+                                  if (state is TvDetailLoadedState) {
                                     final message = context
                                         .read<TvDetailBloc>()
                                         .watchlistMessage;

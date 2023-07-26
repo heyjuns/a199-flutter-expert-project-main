@@ -75,5 +75,3 @@ class TvDetailErrorState extends TvDetailState {
 
   TvDetailErrorState(this.message);
 }
-
-class TvDetailWatchlistState extends TvDetailState {}

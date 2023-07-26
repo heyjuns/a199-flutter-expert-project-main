@@ -27,7 +27,7 @@ class TvDetailBloc extends Bloc<TvDetailEvent, TvDetailState> {
   String _watchlistMessage = '';
   String get watchlistMessage => _watchlistMessage;
 
-  late bool _isAddedToWatchlist;
+  bool _isAddedToWatchlist = false;
   bool get isAddedToWatchlist => _isAddedToWatchlist;
 
   List<Tv> _tvRecommendations = [];
@@ -44,17 +44,32 @@ class TvDetailBloc extends Bloc<TvDetailEvent, TvDetailState> {
       emit(TvDetailLoadingState());
 
       int id = event.id;
-      final response = await getTvDetail.execute(id);
-      response.fold(
-        (error) {
-          _message = error.message;
-          emit(TvDetailErrorState(_message));
-        },
-        (tvs) {
-          _tvDetail = tvs;
-          add(FetchTvStatusEvent(id));
-        },
-      );
+      await Future.wait([
+        getTvDetail.execute(id),
+        getTvRecommendations.execute(id),
+      ]).then((response) {
+        response[0].fold(
+          (error) {
+            _message = error.message;
+            emit(TvDetailErrorState(_message));
+          },
+          (tvs) {
+            _tvDetail = tvs as TvDetail;
+            add(FetchTvStatusEvent(id));
+          },
+        );
+        response[1].fold(
+          (error) {
+            _message = error.message;
+            emit(TvDetailErrorState(_message));
+          },
+          (tvRecommendations) {
+            _tvRecommendations = tvRecommendations as List<Tv>;
+          },
+        );
+      }).whenComplete(() {
+        emit(TvDetailLoadedState(isAddedToWatchlist));
+      });
     });
 
     on<FetchTvRecommendationEvent>(

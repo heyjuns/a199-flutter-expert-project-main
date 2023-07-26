@@ -26,7 +26,6 @@ class _TvDetailPageState extends State<TvDetailPage> {
   void initState() {
     super.initState();
     Future.microtask(() {
-      context.read<TvDetailBloc>()..add(FetchTvRecommendationEvent(widget.id));
       context.read<TvDetailBloc>()..add(FetchTvDetailEvent(widget.id));
     });
   }

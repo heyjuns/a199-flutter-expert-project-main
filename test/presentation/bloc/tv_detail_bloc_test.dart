@@ -78,7 +78,9 @@ void main() {
       build: () {
         when(mockGetTvDetail.execute(1))
             .thenAnswer((_) async => Left(ServerFailure('')));
-
+        when(mockGetWatchListTvStatus.execute(1)).thenAnswer((_) async => true);
+        when(mockGetTvRecommendations.execute(1))
+            .thenAnswer((_) async => Right(testTvList));
         return bloc;
       },
       act: (bloc) => bloc.add(FetchTvDetailEvent(1)),

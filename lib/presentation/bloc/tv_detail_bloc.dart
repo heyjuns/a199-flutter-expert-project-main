@@ -52,9 +52,7 @@ class TvDetailBloc extends Bloc<TvDetailEvent, TvDetailState> {
         },
         (tvs) {
           _tvDetail = tvs;
-          TvDetailLoadedState(false);
           add(FetchTvStatusEvent(id));
-          add(FetchTvRecommendationEvent(id));
         },
       );
     });

@@ -25,7 +25,10 @@ class _TvDetailPageState extends State<TvDetailPage> {
   @override
   void initState() {
     super.initState();
-    context.read<TvDetailBloc>()..add(FetchTvDetailEvent(widget.id));
+    Future.microtask(() {
+      context.read<TvDetailBloc>()..add(FetchTvRecommendationEvent(widget.id));
+      context.read<TvDetailBloc>()..add(FetchTvDetailEvent(widget.id));
+    });
   }
 
   @override
@@ -38,10 +41,10 @@ class _TvDetailPageState extends State<TvDetailPage> {
               child: CircularProgressIndicator(),
             );
           } else if (state is TvDetailLoadedState) {
-            final tv = Provider.of<TvDetailBloc>(context).tvDetail;
+            print(state);
             return SafeArea(
               child: DetailContent(
-                tv,
+                Provider.of<TvDetailBloc>(context).tvDetail,
                 Provider.of<TvDetailBloc>(context).tvRecommendations,
                 Provider.of<TvDetailBloc>(context).isAddedToWatchlist,
               ),
@@ -230,7 +233,9 @@ class DetailContent extends StatelessWidget {
                                     child: ListView.builder(
                                       scrollDirection: Axis.horizontal,
                                       itemBuilder: (context, index) {
-                                        final tv = recommendations[index];
+                                        final tv = context
+                                            .read<TvDetailBloc>()
+                                            .tvRecommendations[index];
                                         return Padding(
                                           padding: const EdgeInsets.all(4.0),
                                           child: InkWell(

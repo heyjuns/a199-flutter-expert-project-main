@@ -67,22 +67,6 @@ class TvDetailBloc extends Bloc<TvDetailEvent, TvDetailState> {
       );
     });
 
-    on<FetchTvRecommendationEvent>(
-      (event, emit) async {
-        int id = event.id;
-        final response = await getTvRecommendations.execute(id);
-        response.fold(
-          (error) {
-            _message = error.message;
-            emit(TvDetailErrorState(_message));
-          },
-          (tvRecommendations) {
-            _tvRecommendations = tvRecommendations;
-          },
-        );
-      },
-    );
-
     on<FetchTvStatusEvent>((event, emit) async {
       int id = event.id;
       final response = await getWatchListTvStatus.execute(id);

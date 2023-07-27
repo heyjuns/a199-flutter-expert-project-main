@@ -1,4 +1,3 @@
-import 'package:ditonton/common/constants.dart';
 import 'package:ditonton/common/utils.dart';
 import 'package:ditonton/presentation/bloc/movie_detail_bloc.dart';
 import 'package:ditonton/presentation/bloc/movie_list_bloc.dart';
@@ -35,10 +34,12 @@ import 'package:ditonton/injection.dart' as di;
 import 'firebase_options.dart';
 import 'presentation/pages/popular_tv_page.dart';
 import 'package:about/about.dart';
+import 'package:core/core.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   di.init();
+  await SSLPinning.init();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );

@@ -52,6 +52,7 @@ import 'domain/usecases/get_tv_detail.dart';
 import 'domain/usecases/get_tv_recommendations.dart';
 import 'domain/usecases/get_watchlist_tv_status.dart';
 import 'domain/usecases/search_tv.dart';
+import 'package:core/core.dart';
 
 final locator = GetIt.instance;
 
@@ -256,5 +257,5 @@ void init() {
   locator.registerLazySingleton<TvDatabaseHelper>(() => TvDatabaseHelper());
 
   // external
-  locator.registerLazySingleton(() => http.Client());
+  locator.registerLazySingleton(() => SSLPinning.client);
 }

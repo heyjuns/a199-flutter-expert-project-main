@@ -36,7 +36,7 @@ class HttpHelper {
     return httpClient;
   }
 
-  static Future<http.Client> createLEClient() async {
+  static Future<http.Client> createClient() async {
     IOClient client = IOClient(await HttpHelper.customHttpClient());
     return client;
   }

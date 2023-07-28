@@ -22,17 +22,22 @@ class TopRatedTvsBloc extends Bloc<TopRatedTvsEvent, TopRatedTvsState> {
     Emitter<TopRatedTvsState> emit,
   ) async {
     emit(TopRatedTvsLoadingState());
-    final topRatedResult = await getTopRatedTvs.execute();
+    try {
+      final topRatedResult = await getTopRatedTvs.execute();
 
-    topRatedResult.fold(
-      (error) {
-        _message = error.message;
-        emit(TopRatedTvsErrorState(_message));
-      },
-      (tvs) {
-        _topRatedTvs = tvs;
-        emit(TopRatedTvsLoadedState());
-      },
-    );
+      topRatedResult.fold(
+        (error) {
+          _message = error.message;
+          emit(TopRatedTvsErrorState(_message));
+        },
+        (tvs) {
+          _topRatedTvs = tvs;
+          emit(TopRatedTvsLoadedState());
+        },
+      );
+    } catch (e) {
+      _message = 'something went wrong :(';
+      emit(TopRatedTvsErrorState(e.toString()));
+    }
   }
 }
